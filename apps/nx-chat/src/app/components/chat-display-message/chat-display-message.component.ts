@@ -23,6 +23,7 @@ export class ChatDisplayMessageComponent implements AfterViewInit {
   public value = input.required<string>();
   public position = input.required<{ xPosition: number; yPosition: number }>();
   public fulfilled = input.required<boolean>();
+  public color = input.required<string>();
 
   constructor(
     classBinder: ClassBinder,
@@ -59,5 +60,7 @@ export class ChatDisplayMessageComponent implements AfterViewInit {
       'left',
       (xPosition / 100) * innerWidth + 'px'
     );
+
+    this._renderer.setStyle(this._nativeElement, 'color', this.color());
   }
 }

@@ -3,4 +3,5 @@ export interface IMessage {
   xPosition: number;
   yPosition: number;
   fulfilled: boolean;
+  color: string;
 }

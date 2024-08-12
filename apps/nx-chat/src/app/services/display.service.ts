@@ -38,10 +38,17 @@ export class DisplayService {
       yPosition: this._getStartPosition(),
       value: '',
       fulfilled: false,
+      color: this._getColor(),
     };
   }
 
   private _getStartPosition(): number {
     return Math.random() * 70;
+  }
+
+  private _getColor(): string {
+    return (
+      '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0')
+    );
   }
 }
