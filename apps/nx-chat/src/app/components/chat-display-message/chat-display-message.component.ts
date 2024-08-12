@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   input,
   Renderer2,
@@ -21,6 +22,7 @@ import {
 export class ChatDisplayMessageComponent implements AfterViewInit {
   public value = input.required<string>();
   public position = input.required<{ xPosition: number; yPosition: number }>();
+  public fulfilled = input.required<boolean>();
 
   constructor(
     classBinder: ClassBinder,
@@ -28,6 +30,11 @@ export class ChatDisplayMessageComponent implements AfterViewInit {
     private _elementRef: ElementRef
   ) {
     classBinder.bind('app-chat-display-message');
+    effect(() => {
+      if (!this.fulfilled()) {
+        classBinder.bind('app-chat-display-message--unfulfilled');
+      }
+    });
   }
 
   private get _nativeElement(): HTMLElement {

@@ -26,7 +26,10 @@ export class DisplayService {
    * Displays a new message on screen and saves it to the backend.
    */
   public displayMessage(): void {
-    this._messages.update((messages) => [this._getNewMessage(), ...messages]);
+    this._messages.update((messages) => [
+      this._getNewMessage(),
+      ...messages.map((message) => ({ ...message, fulfilled: true })),
+    ]);
   }
 
   private _getNewMessage(): IMessage {
@@ -34,6 +37,7 @@ export class DisplayService {
       xPosition: this._getStartPosition(),
       yPosition: this._getStartPosition(),
       value: '',
+      fulfilled: false,
     };
   }
 

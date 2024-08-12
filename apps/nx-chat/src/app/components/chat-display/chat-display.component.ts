@@ -49,12 +49,13 @@ export class ChatDisplayComponent implements AfterViewInit {
   }
 
   private _createMessage(message: IMessage): void {
-    const { value, xPosition, yPosition } = message;
+    const { value, xPosition, yPosition, fulfilled } = message;
     const ref = this._viewContainerRef.createComponent(
       ChatDisplayMessageComponent
     );
 
     ref.setInput('value', value);
     ref.setInput('position', { xPosition, yPosition });
+    ref.setInput('fulfilled', fulfilled);
   }
 }
