@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { ChatDisplayComponent } from '../chat-display/chat-display.component';
+import { DisplayService } from '../../services/display.service';
 
 @Component({
   standalone: true,
@@ -14,7 +15,7 @@ import { ChatDisplayComponent } from '../chat-display/chat-display.component';
   styleUrl: 'chat-container.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [ClassBinder],
+  providers: [ClassBinder, DisplayService],
   imports: [ChatInputComponent, ChatDisplayComponent],
 })
 export class ChatContainerComponent {
