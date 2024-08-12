@@ -4,6 +4,7 @@
     pInputText
     [ngModel]="textValue()"
     (ngModelChange)="onTextChange($event)"
+    (click)="onClick()"
     placeholder="Start typing here..."
   />
   <p-button class="app-chat-input__button">Display message</p-button>
