@@ -2,10 +2,11 @@
   <input
     type="text"
     pInputText
-    [ngModel]="textValue()"
+    [ngModel]="textValue"
     (ngModelChange)="onTextChange($event)"
-    (click)="onClick()"
     placeholder="Start typing here..."
   />
-  <p-button class="app-chat-input__button">Display message</p-button>
+  <p-button (click)="onClick()" class="app-chat-input__button"
+    >Display message</p-button
+  >
 </div>

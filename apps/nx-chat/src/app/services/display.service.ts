@@ -3,9 +3,7 @@ import { IMessage } from '../interfaces/imessage';
 
 @Injectable()
 export class DisplayService {
-  private _message = signal<IMessage>(this._getNewMessage());
-
-  private _messages = signal<IMessage[]>([]);
+  private _messages = signal<IMessage[]>([this._getNewMessage()]);
 
   /**
    * A getter for all on screen messages.
@@ -17,18 +15,18 @@ export class DisplayService {
   /**
    * Sets the current message value.
    *
-   * @param message
+   * @param value
    */
   public updateMessage(value: string): void {
-    this._message.update((message) => ({ ...message, value }));
+    const [message, ...messages] = this._messages();
+    this._messages.set([{ ...message, value }, ...messages]);
   }
 
   /**
    * Displays a new message on screen and saves it to the backend.
    */
   public displayMessage(): void {
-    this._messages.update((messages) => [...messages, this._message()]);
-    this._message.set(this._getNewMessage());
+    this._messages.update((messages) => [this._getNewMessage(), ...messages]);
   }
 
   private _getNewMessage(): IMessage {
@@ -40,6 +38,6 @@ export class DisplayService {
   }
 
   private _getStartPosition(): number {
-    return Math.random() * 100;
+    return Math.random() * 70;
   }
 }

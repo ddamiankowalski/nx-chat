@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -22,19 +21,23 @@ import { DisplayService } from '../../services/display.service';
   imports: [InputTextModule, FormsModule, ButtonModule],
 })
 export class ChatInputComponent {
-  public textValue = signal<string>('');
+  public textValue = '';
 
   private _display = inject(DisplayService);
 
   constructor(classBinder: ClassBinder) {
     classBinder.bind('app-chat-input');
+    this._display.displayMessage();
   }
 
   public onTextChange(value: string): void {
     this._display.updateMessage(value);
+    this.textValue = value;
   }
 
   public onClick(): void {
     this._display.displayMessage();
+    this._display.updateMessage('');
+    this.textValue = '';
   }
 }
