@@ -1,1 +1,14 @@
-.app-chat-input {}
+.app-chat-input {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__button {
+    button {
+      width: 100%;
+      display: block;
+    }
+  }
+}

@@ -1,1 +1,9 @@
-<input type="text" pInputText [ngModel]="textValue()" />
+<div class="app-chat-input__wrapper">
+  <input
+    type="text"
+    pInputText
+    [ngModel]="textValue()"
+    placeholder="Type your message..."
+  />
+  <p-button class="app-chat-input__button">Send message</p-button>
+</div>

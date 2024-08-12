@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   standalone: true,
@@ -16,7 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [ClassBinder],
-  imports: [InputTextModule, FormsModule],
+  imports: [InputTextModule, FormsModule, ButtonModule],
 })
 export class ChatInputComponent {
   public textValue = signal<string>('');
