@@ -7,6 +7,7 @@ import {
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { ChatDisplayComponent } from '../chat-display/chat-display.component';
 import { DisplayService } from '../../services/display.service';
+import { DisplaySocketService } from '../../services/display-socket.service';
 
 @Component({
   standalone: true,
@@ -15,7 +16,7 @@ import { DisplayService } from '../../services/display.service';
   styleUrl: 'chat-container.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [ClassBinder, DisplayService],
+  providers: [ClassBinder, DisplayService, DisplaySocketService],
   imports: [ChatInputComponent, ChatDisplayComponent],
 })
 export class ChatContainerComponent {

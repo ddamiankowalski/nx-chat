@@ -1,9 +1,15 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { inject, Injectable, Signal, signal } from '@angular/core';
 import { IMessage } from '../interfaces/imessage';
+import { DisplaySocketService } from './display-socket.service';
 
 @Injectable()
 export class DisplayService {
   private _messages = signal<IMessage[]>([this._getNewMessage()]);
+  private _displaySocket = inject(DisplaySocketService);
+
+  constructor() {
+    this._receiveSocketMessages();
+  }
 
   /**
    * A getter for all on screen messages.
@@ -30,6 +36,14 @@ export class DisplayService {
       this._getNewMessage(),
       ...messages.map((message) => ({ ...message, fulfilled: true })),
     ]);
+
+    this._displaySocket.sendMessage(JSON.stringify(this._messages()));
+  }
+
+  private _receiveSocketMessages(): void {
+    this._displaySocket.socket.subscribe((messages) =>
+      this._messages.set(messages)
+    );
   }
 
   private _getNewMessage(): IMessage {
