@@ -5,6 +5,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
+import { ChatDisplayComponent } from '../chat-display/chat-display.component';
 
 @Component({
   standalone: true,
@@ -14,7 +15,7 @@ import { ChatInputComponent } from '../chat-input/chat-input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [ClassBinder],
-  imports: [ChatInputComponent],
+  imports: [ChatInputComponent, ChatDisplayComponent],
 })
 export class ChatContainerComponent {
   constructor(classBinder: ClassBinder) {
