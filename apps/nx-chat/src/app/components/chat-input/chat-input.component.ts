@@ -30,13 +30,13 @@ export class ChatInputComponent {
   }
 
   public onTextChange(value: string): void {
-    this._display.updateMessage(value);
+    this._display.updateCurrentMessage(value);
     this.textValue = value;
   }
 
   public onClick(): void {
-    this._display.displayMessage();
-    this._display.updateMessage('');
+    this._display.addMessage();
+    this._display.updateCurrentMessage('');
     this.textValue = '';
   }
 }

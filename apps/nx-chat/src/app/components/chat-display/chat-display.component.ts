@@ -38,7 +38,7 @@ export class ChatDisplayComponent implements AfterViewInit {
   }
 
   private _handleAddMessage(): void {
-    effect(() => this._updateMessages(this._display.messages()), {
+    effect(() => this._updateMessages(this._display.allMessages()), {
       injector: this._injector,
     });
   }

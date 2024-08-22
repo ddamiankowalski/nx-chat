@@ -1,10 +1,12 @@
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { IMessage } from '../interfaces/imessage';
 import { DisplaySocketService } from './display-socket.service';
 
 @Injectable()
 export class DisplayService {
-  private _messages = signal<IMessage[]>([this._getNewMessage()]);
+  private _allMessages = signal<IMessage[]>([]);
+  private _currentMessage = signal<IMessage>(this._getNewMessage());
+
   private _displaySocket = inject(DisplaySocketService);
 
   constructor() {
@@ -14,8 +16,8 @@ export class DisplayService {
   /**
    * A getter for all on screen messages.
    */
-  get messages(): Signal<IMessage[]> {
-    return this._messages;
+  get allMessages(): Signal<IMessage[]> {
+    return computed(() => [this._currentMessage(), ...this._allMessages()]);
   }
 
   /**
@@ -23,26 +25,31 @@ export class DisplayService {
    *
    * @param value
    */
-  public updateMessage(value: string): void {
-    const [message, ...messages] = this._messages();
-    this._messages.set([{ ...message, value }, ...messages]);
+  public updateCurrentMessage(value: string): void {
+    this._currentMessage.update((message) => ({ ...message, value }));
   }
 
   /**
    * Displays a new message on screen and saves it to the backend.
    */
-  public displayMessage(): void {
-    this._messages.update((messages) => [
-      this._getNewMessage(),
+  public addMessage(): void {
+    const addedMessage = { ...this._currentMessage(), fulfilled: true };
+
+    this._allMessages.update((messages) => [
+      addedMessage,
       ...messages.map((message) => ({ ...message, fulfilled: true })),
     ]);
 
-    this._displaySocket.sendMessage(JSON.stringify(this._messages()));
+    this._displaySocket.sendMessage(JSON.stringify(addedMessage));
+    this._currentMessage.set(this._getNewMessage());
   }
 
   private _receiveSocketMessages(): void {
-    this._displaySocket.socket.subscribe((messages) =>
-      this._messages.set(messages)
+    this._displaySocket.socket.subscribe((message) =>
+      this._allMessages.update((messages) => [
+        message,
+        ...messages.map((message) => ({ ...message, fulfilled: true })),
+      ])
     );
   }
 
