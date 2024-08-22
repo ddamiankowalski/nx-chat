@@ -12,6 +12,8 @@ This repository contains all files to run a simple network chat application. The
 
 When application is successfully configured and running, the user can type into the field any message. When the user presses the `Display message` button, the message gets displayed on screen and gets sent to the backend service. All the users that are also connected should automatically retrieve the same message. All the previously added messages by all users should persist on the database, so that when any user refreshes the website, the messages that were previously added should be displayed on screen again. 
 
+![alt text](preview.gif)
+
 ## Running locally
 
 In order to run the application locally follow these steps
