@@ -13,12 +13,14 @@ export class DatabaseController {
   }
 
   public async initialize(): Promise<void> {
+    const { HOST, USER, PASSWORD, PORT, DBNAME } = process.env;
+
     this._client = new Client({
-      host: 'localhost',
-      user: 'root',
-      password: '123',
-      port: 5432,
-      database: 'nx-chat',
+      host: HOST,
+      user: USER,
+      password: PASSWORD,
+      port: Number(PORT),
+      database: DBNAME,
     });
 
     await this._client.connect();
