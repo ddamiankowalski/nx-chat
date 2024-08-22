@@ -12,6 +12,21 @@ export class DatabaseController {
     return client;
   }
 
+  public getMessages(): Promise<any> {
+    return this.client.query('SELECT * FROM messages;');
+  }
+
+  public sendMessage(
+    message: string,
+    xPos: string,
+    yPos: string
+  ): Promise<any> {
+    return this.client.query(`
+      INSERT INTO messages (message_text, x_pos, y_pos) 
+      VALUES ('${message}', ${xPos}, ${yPos});
+    `);
+  }
+
   public async initialize(): Promise<void> {
     const { HOST, USER, PASSWORD, PORT, DBNAME } = process.env;
 
