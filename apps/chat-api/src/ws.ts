@@ -1,6 +1,7 @@
 import { createServer, Server } from 'http';
 import { WebSocket, WebSocketServer } from 'ws';
 import { uuid } from 'uuidv4';
+import { DatabaseController } from './db';
 
 export class WebSocketController {
   private _server: Server;
@@ -8,6 +9,10 @@ export class WebSocketController {
   private _connected: Map<string, WebSocket> = new Map();
 
   private PORT = 3000;
+
+  constructor(private _dbController: DatabaseController) {
+    this._dbController.getMessages().then((x) => console.log(x.rows));
+  }
 
   public initialize(): void {
     this._server = this._createServer();

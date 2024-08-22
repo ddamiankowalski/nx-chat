@@ -1,14 +1,11 @@
 import { DatabaseController } from './db';
 import { WebSocketController } from './ws';
 
-const wsController = new WebSocketController();
-wsController.initialize();
+let wsController: WebSocketController;
+let dbController: DatabaseController;
 
-const dbController = new DatabaseController();
+dbController = new DatabaseController();
 dbController.initialize().then(() => {
   console.log('DB CONNECTED SUCCESSFULLY');
-
-  dbController.sendMessage('some message', '12', '14');
-
-  dbController.getMessages().then((s) => console.log(s.rows));
+  wsController = new WebSocketController(dbController);
 });
