@@ -12,7 +12,7 @@ export class DatabaseController {
     return client;
   }
 
-  public getMessages(): Promise<any> {
+  public getMessages(): Promise<QueryResult> {
     return this.client.query('SELECT * FROM messages;');
   }
 
@@ -20,7 +20,7 @@ export class DatabaseController {
     message: string,
     xPos: string,
     yPos: string
-  ): Promise<any> {
+  ): Promise<QueryResult> {
     return this.client.query(`
       INSERT INTO messages (message_text, x_pos, y_pos) 
       VALUES ('${message}', ${xPos}, ${yPos});
@@ -42,7 +42,7 @@ export class DatabaseController {
     await this._seedDb();
   }
 
-  private _seedDb(): Promise<QueryResult<any>> {
+  private _seedDb(): Promise<QueryResult> {
     return this.client.query(
       `CREATE TABLE IF NOT EXISTS messages (
           message_text TEXT,
