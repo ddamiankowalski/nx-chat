@@ -18,12 +18,13 @@ export class DatabaseController {
 
   public sendMessage(
     message: string,
-    xPos: string,
-    yPos: string
+    xPos: number,
+    yPos: number,
+    color: string
   ): Promise<QueryResult> {
     return this.client.query(`
-      INSERT INTO messages (message_text, x_pos, y_pos) 
-      VALUES ('${message}', ${xPos}, ${yPos});
+      INSERT INTO messages (message_text, x_pos, y_pos, fulfilled, color) 
+      VALUES ('${message}', ${xPos}, ${yPos}, TRUE, '${color}');
     `);
   }
 
@@ -47,7 +48,9 @@ export class DatabaseController {
       `CREATE TABLE IF NOT EXISTS messages (
           message_text TEXT,
           x_pos INTEGER,
-          y_pos INTEGER
+          y_pos INTEGER,
+          fulfilled BOOLEAN,
+          color VARCHAR(50)
       );`
     );
   }

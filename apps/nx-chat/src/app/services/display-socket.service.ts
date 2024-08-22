@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { IMessage } from '../interfaces/imessage';
 
 @Injectable()
 export class DisplaySocketService {
@@ -7,6 +8,7 @@ export class DisplaySocketService {
 
   constructor() {
     this._socket = this._initConnection();
+    this._getDbMessages();
   }
 
   /**
@@ -21,11 +23,15 @@ export class DisplaySocketService {
    *
    * @param message
    */
-  public sendMessage(message: string): void {
-    this._socket.next(message);
+  public sendMessage(message: IMessage): void {
+    this._socket.next({ type: 'WS', value: message });
   }
 
   private _initConnection(): WebSocketSubject<string> {
     return webSocket('ws://localhost:3000');
+  }
+
+  private _getDbMessages(): void {
+    this._socket.next({ type: 'DB', value: 'GET_MESSAGES' });
   }
 }

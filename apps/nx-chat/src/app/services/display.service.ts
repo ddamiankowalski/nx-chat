@@ -34,23 +34,32 @@ export class DisplayService {
    */
   public addMessage(): void {
     const addedMessage = { ...this._currentMessage(), fulfilled: true };
+    this._displaySocket.sendMessage(addedMessage);
 
     this._allMessages.update((messages) => [
       addedMessage,
       ...messages.map((message) => ({ ...message, fulfilled: true })),
     ]);
 
-    this._displaySocket.sendMessage(JSON.stringify(addedMessage));
     this._currentMessage.set(this._getNewMessage());
   }
 
   private _receiveSocketMessages(): void {
     this._displaySocket.socket.subscribe((message) =>
-      this._allMessages.update((messages) => [
-        message,
-        ...messages.map((message) => ({ ...message, fulfilled: true })),
-      ])
+      this._parseMessage(message)
     );
+  }
+
+  private _parseMessage(payload: any): void {
+    if (payload.length) {
+      console.log(payload);
+      this._allMessages.update((messages) => [...messages, ...payload]);
+    } else {
+      this._allMessages.update((messages) => [
+        payload,
+        ...messages.map((message) => ({ ...message, fulfilled: true })),
+      ]);
+    }
   }
 
   private _getNewMessage(): IMessage {
