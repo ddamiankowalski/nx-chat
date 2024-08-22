@@ -27,7 +27,6 @@ export class ChatInputComponent {
 
   constructor(classBinder: ClassBinder) {
     classBinder.bind('app-chat-input');
-    this._display.displayMessage();
   }
 
   public onTextChange(value: string): void {
